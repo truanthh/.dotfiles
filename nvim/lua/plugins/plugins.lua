@@ -87,6 +87,7 @@ return {
         "yaml",
         "vue",
         "css",
+        "scss",
       },
     },
   },
