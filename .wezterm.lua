@@ -24,7 +24,14 @@ config.colors = {
 
 config.keys = {
 	{ key = "Slash", mods = "CTRL", action = wezterm.action({ SendString = "\x1f" }) },
+	{ key = "l", mods = "CTRL|SHIFT", action = wezterm.action({ ActivateTabRelative = 1 }) },
+	{ key = "h", mods = "CTRL|SHIFT", action = wezterm.action({ ActivateTabRelative = -1 }) },
 }
+
+config.initial_cols = 140
+config.initial_rows = 40
+
+config.font_size = 16
 
 -- and finally, return the configuration to wezterm
 return config
