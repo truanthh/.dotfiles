@@ -9,3 +9,7 @@ choco install neovim;
 choco install ripgrep; 
 choco install wezterm; 
 choco install autohotkey;
+
+Happy Auto Hotkey
+Hide Top Bar
+User Themes
