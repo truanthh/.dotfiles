@@ -3,18 +3,18 @@ local wezterm = require("wezterm")
 
 -- This will hold the configuration.
 local config = wezterm.config_builder()
-
+local act = wezterm.action
 -- This is where you actually apply your config choices
 -- -KSDJFLSKDJF
 
 config.font = wezterm.font("Monaspace Neon NF")
--- config.font = wezterm.font("CaskaydiaCove NF")
+-- config.window_decorations = "NONE"
 
 -- For example, changing the color scheme:
 -- config.color_scheme = 'Bamboo'
 
--- enable_tab_bar = true
-config.hide_tab_bar_if_only_one_tab = true
+config.enable_tab_bar = false
+-- config.hide_tab_bar_if_only_one_tab = true
 
 config.colors = {
 	-- The default text color
@@ -25,8 +25,9 @@ config.colors = {
 
 config.keys = {
 	{ key = "Slash", mods = "CTRL", action = wezterm.action({ SendString = "\x1f" }) },
-	{ key = "l", mods = "CTRL|SHIFT", action = wezterm.action({ ActivateTabRelative = 1 }) },
-	{ key = "h", mods = "CTRL|SHIFT", action = wezterm.action({ ActivateTabRelative = -1 }) },
+	{ key = "l", mods = "ALT", action = wezterm.action({ ActivateTabRelative = 1 }) },
+	{ key = "h", mods = "ALT", action = wezterm.action({ ActivateTabRelative = -1 }) },
+	{ key = "t", mods = "ALT", action = act.SpawnTab("DefaultDomain") },
 }
 
 config.initial_cols = 140
