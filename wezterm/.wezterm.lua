@@ -17,6 +17,26 @@ config.enable_tab_bar = false
 -- config.hide_tab_bar_if_only_one_tab = true
 
 config.colors = {
+  ansi = {
+    'black',
+    'maroon',
+    'green',
+    'olive',
+    'navy',
+    'purple',
+    'teal',
+    'silver',
+    },
+  brights = {
+    'grey',
+    'red',
+    '#5f9E9D', -- 'lime',
+    'yellow',
+    'blue',
+    'fuchsia',
+    'aqua',
+    'white',
+  },
 	-- The default text color
 	foreground = "#2E3440",
 	-- The default background color

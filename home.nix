@@ -6,6 +6,12 @@
 
   # ===== ПАКЕТЫ ДЛЯ ПОЛЬЗОВАТЕЛЯ =====
   home.packages = with pkgs; [
+    ripgrep
+    tree-sitter
+    gcc
+    docker
+    docker-compose
+
     alsa-utils
     vim
     neovim
@@ -29,7 +35,7 @@
     ".config/nvim".source = ./nvim/.config/nvim;
 
     # Wezterm
-    ".config/wezterm/wezterm.lua".source = ./wezterm/wezterm.lua;
+    "/home/truanthh/.wezterm.lua".source = ./wezterm/.wezterm.lua;
 
     # Шрифты (копируем в системную папку)
     ".local/share/fonts".source = ./fonts;
