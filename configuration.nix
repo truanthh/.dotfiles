@@ -29,9 +29,17 @@
     desktopManager.xterm.enable = false;
 
     deviceSection = ''
-	Option "metamodes" "nvidia-auto-select +0+0 { ForceFullCompositionPipeline = On }"
-	Option "TripleBuffer" "true"
+        Option "metamodes" "nvidia-auto-select +0+0 { ForceFullCompositionPipeline = On }"
+        Option "TripleBuffer" "true"
     '';
+
+    config = ''
+        Section "InputClass"
+            Identifier "My Mouse"
+            Driver "libinput"
+            Option "AccelProfile" "flat"
+        EndSection
+      '';
 
     windowManager.i3 = {
       enable = true;

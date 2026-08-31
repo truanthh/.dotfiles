@@ -11,8 +11,11 @@
     gcc
     docker
     docker-compose
+    nodejs
+    telegram-desktop
+    amnezia-vpn
 
-    alsa-utils
+    alsa-utils #sound
     vim
     neovim
     wezterm
