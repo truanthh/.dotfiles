@@ -26,17 +26,17 @@
   # ===== КОНФИГИ ИЗ DOTFILES =====
   home.file = {
     # Neovim
-    ".config/nvim".source = ./nvim;
+    ".config/nvim".source = ./nvim/.config/nvim;
 
     # Wezterm
-    ".config/wezterm".source = ./wezterm;
+    ".config/wezterm/wezterm.lua".source = ./wezterm/wezterm.lua;
 
     # Шрифты (копируем в системную папку)
     ".local/share/fonts".source = ./fonts;
   };
 
   # ===== ПРОГРАММЫ С КОНФИГАМИ =====
-  programs.git = {
+  programs.git.settings = {
     enable = true;
     userName = "truanthh";
     userEmail = "aquapyr@gmail.com";
