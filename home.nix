@@ -44,7 +44,7 @@
 
   programs.zsh = {
     enable = true;
-    ohMyZsh = {
+    oh-my-zsh = {
       enable = true;
       plugins = [ "git" "docker" "kubectl" ];
       theme = "robbyrussell";
