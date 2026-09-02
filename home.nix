@@ -34,17 +34,21 @@
   ];
 
   # ===== КОНФИГИ =====
+  home.file.".config/hypr" = {
+    source = ./hypr;
+    force = true;
+  };
+
   home.file = {
     ".config/nvim".source = ./nvim/.config/nvim;
-    ".config/hypr".source = ./config/hypr;
-    ".config/waybar".source = ./config/waybar;
-    ".config/foot".source = ./config/foot;
+    ".config/waybar".source = ./waybar;
+    ".config/foot".source = ./foot;
     ".wezterm.lua".source = ./wezterm/.wezterm.lua;
     ".local/share/fonts".source = ./fonts;
   };
 
   # ===== ПРОГРАММЫ С КОНФИГАМИ =====
-  programs.git = {
+  programs.git.settings = {
     enable = true;
     userName = "truanthh";
     userEmail = "aquapyr@gmail.com";
