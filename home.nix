@@ -3,66 +3,50 @@
 {
   home.username = "truanthh";
   home.homeDirectory = "/home/truanthh";
+  home.stateVersion = "26.05";
+
+  programs.bash = {
+    enable = true;
+    shellAliases = {
+      btw = "echo i use hyprland btw";
+    };
+    profileExtra = ''
+      if [ -z "$WAYLAND_DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
+        exec hyprland
+      fi
+    '';
+  };
 
   # ===== ПАКЕТЫ ДЛЯ ПОЛЬЗОВАТЕЛЯ =====
-  # home.packages = with pkgs; [
-  #   ripgrep
-  #   tree-sitter
-  #   gcc
-  #   docker
-  #   docker-compose
-  #   nodejs
-  #   telegram-desktop
-  #   amnezia-vpn
-  #
-  #   alsa-utils #sound
-  #   vim
-  #   neovim
-  #   wezterm
-  #   git
-  #   htop
-  #   btop
-  #   wget
-  #   curl
-  #   nix-tree
-  #   pavucontrol
-  #   pamixer
-  #   playerctl
-  #   picom
-  #   xclip
-  # ];
+  home.packages = with pkgs; [
+    ripgrep
+    tree-sitter
+    gcc
+    docker
+    docker-compose
+    nodejs
+    telegram-desktop
+    amnezia-vpn
+    amneziawg-tools
+    
+    # GNOME расширения
+    gnome-shell-extensions
+  ];
 
-  # ===== КОНФИГИ ИЗ DOTFILES =====
+  # ===== КОНФИГИ =====
   home.file = {
-    # Neovim
     ".config/nvim".source = ./nvim/.config/nvim;
-
-    # Wezterm
-    "/home/truanthh/.wezterm.lua".source = ./wezterm/.wezterm.lua;
-
-    # Шрифты (копируем в системную папку)
+    ".config/hypr".source = ./config/hypr;
+    ".config/waybar".source = ./config/waybar;
+    ".config/foot".source = ./config/foot;
+    ".wezterm.lua".source = ./wezterm/.wezterm.lua;
     ".local/share/fonts".source = ./fonts;
   };
 
   # ===== ПРОГРАММЫ С КОНФИГАМИ =====
-  programs.git.settings = {
+  programs.git = {
     enable = true;
     userName = "truanthh";
     userEmail = "aquapyr@gmail.com";
   };
-
-  programs.zsh = {
-    enable = true;
-    oh-my-zsh = {
-      enable = true;
-      plugins = [ "git" "docker"];
-      theme = "robbyrussell";
-    };
-  };
-
-  # ===== СИСТЕМНЫЕ НАСТРОЙКИ =====
-  # i3 конфиг — можно вынести в отдельный файл или оставить в system конфиге
-  # Я рекомендую оставить управление i3 в configuration.nix
-
-  home.stateVersion = "26.05";
 }

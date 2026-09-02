@@ -3,22 +3,22 @@
   nixpkgs.config.allowUnfree = true;
 
   imports = [ 
-  ./hardware-configuration.nix
+    ./hardware-configuration.nix
   ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # ========== АППАРАТНОЕ ОБЕСПЕЧЕНИЕ ==========
   hardware.maccel = {
     enable = true;
-    enableCli = true; # Для возможности тонкой настройки через CLI/TUI
+    enableCli = true;
     parameters = {
-      mode = "linear"; # Линейный режим, похож на "flat"
-      sensMultiplier = 1.0; # Общий множитель чувствительности
-      acceleration = 0.0; # Уберите ускорение
+      mode = "linear";
+      sensMultiplier = 1.0;
+      acceleration = 0.0;
       offset = 0.0;
       outputCap = 1.0;
-      # ... другие параметры, которые вы хотите изменить
     };
   };
 
@@ -27,7 +27,8 @@
     powerManagement.enable = false;
     open = false;
     nvidiaSettings = true;
-    forceFullCompositionPipeline = true;
+    # Для Wayland
+    forceFullCompositionPipeline = false;
   };
 
   networking.hostName = "nixos-btw";
@@ -35,42 +36,58 @@
 
   time.timeZone = "Europe/Moscow";
 
-  services.xserver = {
+  # services.getty.autologinUser = "truanthh";
+
+  programs.hyprland = {
     enable = true;
-    xkb.layout = "us,ru";
-    xkb.options = "grp:alt_shift_toggle";
-
-
-    videoDrivers = [ "nvidia" ];
-    desktopManager.xterm.enable = false;
-
-    deviceSection = ''
-        Option "metamodes" "nvidia-auto-select +0+0 { ForceFullCompositionPipeline = On }"
-        Option "TripleBuffer" "true"
-    '';
-
-    windowManager.i3 = {
-      enable = true;
-      extraPackages = with pkgs; [ i3status i3lock dmenu ];
-    };
+    # Включаем плагины XWayland (для старых приложений)
+    xwayland.enable = true;
   };
 
-  services.displayManager.sddm.enable = true;
+  services.xserver.enable = false;
 
-  users.users.truanthh = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" ];
-    packages = with pkgs; [ tree ];
-  };
+  # Включаем GDM для входа
+  services.displayManager.sddm.enable = false;
+  services.displayManager.gdm.enable = true;
 
+  # ========== ПРОГРАММЫ ==========
   programs.firefox.enable = true;
+
+  # Звук через PipeWire
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
 
   hardware.alsa.enablePersistence = true;
 
+  # ========== ПОЛЬЗОВАТЕЛИ ==========
+  users.users.truanthh = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "video" "audio" ];
+    packages = with pkgs; [ tree ];
+  };
+
+
+  # ========== СИСТЕМНЫЕ ПАКЕТЫ ==========
   environment.systemPackages = with pkgs; [
+    # Hyprland экосистема
+    hyprland
+    hyprpaper
+    hyprlock
+    hypridle
+    waybar
+    wofi
+    dunst
+    kitty
+    brightnessctl
+    libnotify
+    wl-clipboard
+    
+    # Утилиты
     alsa-utils
-    picom
-    wezterm
     vim
     neovim
     wget
@@ -79,9 +96,11 @@
     htop
     btop
     nix-tree
-    pavucontrol   # Микшер
-    pamixer       # Громкость в терминале
-    playerctl     # Управление медиа
+    pavucontrol
+    pamixer
+    playerctl
+    wezterm
+    nautilus         # Файловый менеджер (опционально)
   ];
 
   fonts.packages = with pkgs; [
