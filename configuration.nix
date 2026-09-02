@@ -2,10 +2,25 @@
 {
   nixpkgs.config.allowUnfree = true;
 
-  imports = [ ./hardware-configuration.nix ];
+  imports = [ 
+  ./hardware-configuration.nix
+  ];
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  hardware.maccel = {
+    enable = true;
+    enableCli = true; # Для возможности тонкой настройки через CLI/TUI
+    parameters = {
+      mode = "linear"; # Линейный режим, похож на "flat"
+      sensMultiplier = 1.0; # Общий множитель чувствительности
+      acceleration = 0.0; # Уберите ускорение
+      offset = 0.0;
+      outputCap = 1.0;
+      # ... другие параметры, которые вы хотите изменить
+    };
+  };
 
   hardware.nvidia = {
     modesetting.enable = true;
@@ -22,11 +37,6 @@
 
   services.xserver = {
     enable = true;
-    mouse = {
-      accelProfile = "flat";
-      # Опционально: добавьте accelSpeed, если нужно отрегулировать общую скорость
-      # accelSpeed = "0";
-    };
     xkb.layout = "us,ru";
     xkb.options = "grp:alt_shift_toggle";
 

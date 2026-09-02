@@ -21,7 +21,41 @@
         "type": "github"
       }
     },
+    "maccel": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1785636477,
+        "narHash": "sha256-MCiEvAuwmg7pe8OzztV+H3EOK7LduaFpqiwOh4j0smo=",
+        "owner": "Gnarus-G",
+        "repo": "maccel",
+        "rev": "e398002eb6df8c7dcf0fe3fad66d0d05d6dcf1e2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Gnarus-G",
+        "repo": "maccel",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
+      "locked": {
+        "lastModified": 1785571196,
+        "narHash": "sha256-KoTsyMQqnXQZq8deCEnu4QkyldkwH/bpMMhUcfMdGIw=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "148bab9c1c3c53136ecb44a6ea356a0ed5b39b06",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
       "locked": {
         "lastModified": 1787962033,
         "narHash": "sha256-u6z9VTZA4Kf3RkHQo9sQI7NI4Ei/uiU9vrMqOiwWP1Y=",
@@ -40,7 +74,8 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs"
+        "maccel": "maccel",
+        "nixpkgs": "nixpkgs_2"
       }
     }
   },
