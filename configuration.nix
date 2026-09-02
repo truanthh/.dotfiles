@@ -22,8 +22,14 @@
 
   services.xserver = {
     enable = true;
+    mouse = {
+      accelProfile = "flat";
+      # Опционально: добавьте accelSpeed, если нужно отрегулировать общую скорость
+      # accelSpeed = "0";
+    };
     xkb.layout = "us,ru";
     xkb.options = "grp:alt_shift_toggle";
+
 
     videoDrivers = [ "nvidia" ];
     desktopManager.xterm.enable = false;
@@ -32,14 +38,6 @@
         Option "metamodes" "nvidia-auto-select +0+0 { ForceFullCompositionPipeline = On }"
         Option "TripleBuffer" "true"
     '';
-
-    config = ''
-        Section "InputClass"
-            Identifier "My Mouse"
-            Driver "libinput"
-            Option "AccelProfile" "flat"
-        EndSection
-      '';
 
     windowManager.i3 = {
       enable = true;
@@ -59,22 +57,22 @@
 
   hardware.alsa.enablePersistence = true;
 
-  # environment.systemPackages = with pkgs; [
-  #   alsa-utils
-  #   picom
-  #   wezterm
-  #   vim
-  #   neovim
-  #   wget
-  #   curl
-  #   git
-  #   htop
-  #   btop
-  #   nix-tree
-  #   pavucontrol   # Микшер
-  #   pamixer       # Громкость в терминале
-  #   playerctl     # Управление медиа
-  # ];
+  environment.systemPackages = with pkgs; [
+    alsa-utils
+    picom
+    wezterm
+    vim
+    neovim
+    wget
+    curl
+    git
+    htop
+    btop
+    nix-tree
+    pavucontrol   # Микшер
+    pamixer       # Громкость в терминале
+    playerctl     # Управление медиа
+  ];
 
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono

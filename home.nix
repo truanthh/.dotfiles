@@ -5,32 +5,32 @@
   home.homeDirectory = "/home/truanthh";
 
   # ===== ПАКЕТЫ ДЛЯ ПОЛЬЗОВАТЕЛЯ =====
-  home.packages = with pkgs; [
-    ripgrep
-    tree-sitter
-    gcc
-    docker
-    docker-compose
-    nodejs
-    telegram-desktop
-    amnezia-vpn
-
-    alsa-utils #sound
-    vim
-    neovim
-    wezterm
-    git
-    htop
-    btop
-    wget
-    curl
-    nix-tree
-    pavucontrol
-    pamixer
-    playerctl
-    picom
-    xclip
-  ];
+  # home.packages = with pkgs; [
+  #   ripgrep
+  #   tree-sitter
+  #   gcc
+  #   docker
+  #   docker-compose
+  #   nodejs
+  #   telegram-desktop
+  #   amnezia-vpn
+  #
+  #   alsa-utils #sound
+  #   vim
+  #   neovim
+  #   wezterm
+  #   git
+  #   htop
+  #   btop
+  #   wget
+  #   curl
+  #   nix-tree
+  #   pavucontrol
+  #   pamixer
+  #   playerctl
+  #   picom
+  #   xclip
+  # ];
 
   # ===== КОНФИГИ ИЗ DOTFILES =====
   home.file = {
@@ -55,7 +55,7 @@
     enable = true;
     oh-my-zsh = {
       enable = true;
-      plugins = [ "git" "docker" "kubectl" ];
+      plugins = [ "git" "docker"];
       theme = "robbyrussell";
     };
   };

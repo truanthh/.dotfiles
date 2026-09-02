@@ -31,7 +31,7 @@ config.colors = {
     'grey',
     'red',
     '#5f9E9D', -- 'lime',
-    'yellow',
+    '#cfa500', -- 'yellow',
     'blue',
     'fuchsia',
     'aqua',
