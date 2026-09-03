@@ -1,0 +1,8 @@
+{
+  "workspace": {
+    "library": ["/home/truanthh/.config/hypr"]
+  },
+  "diagnostics": {
+    "globals": ["hl"]
+  }
+}
