@@ -10,24 +10,14 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # ========== АППАРАТНОЕ ОБЕСПЕЧЕНИЕ ==========
-  hardware.maccel = {
-    enable = true;
-    enableCli = true;
-    parameters = {
-      mode = "linear";
-      sensMultiplier = 1.0;
-      acceleration = 0.0;
-      offset = 0.0;
-      outputCap = 1.0;
-    };
-  };
+  # Убираем hardware.maccel — он не работает
+  # hardware.maccel = { ... };
 
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
     open = false;
     nvidiaSettings = true;
-    # Для Wayland
     forceFullCompositionPipeline = false;
   };
 
@@ -36,22 +26,33 @@
 
   time.timeZone = "Europe/Moscow";
 
-  # services.getty.autologinUser = "truanthh";
+  # ========== NIRI ==========
+  programs.niri.enable = true;
+  programs.amnezia-vpn.enable = true;
 
-  programs.niri = {
+  # ===== SDDM с автовходом в Niri =====
+  
+  # Включаем SDDM с автовходом
+  services.displayManager.sddm = {
     enable = true;
+    wayland.enable = true;
+    
   };
 
-  services.xserver.enable = false;
+  services.displayManager = {
+    autoLogin = {
+      enable = true;
+      user = "truanthh";
+    };
+  };
 
-  # Включаем GDM для входа
-  services.displayManager.sddm.enable = false;
-  services.displayManager.gdm.enable = true;
+  # Регистрируем Niri как сессию
+  services.displayManager.sessionPackages = [ pkgs.niri ];
+  services.displayManager.defaultSession = "niri";
 
-  # ========== ПРОГРАММЫ ==========
   programs.firefox.enable = true;
 
-  # Звук через PipeWire
+  # SOUND
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -68,11 +69,11 @@
     packages = with pkgs; [ tree ];
   };
 
-
   # ========== СИСТЕМНЫЕ ПАКЕТЫ ==========
   environment.systemPackages = with pkgs; [
     alacritty
     fuzzel
+    waybar
 
     # Утилиты
     alsa-utils
@@ -84,11 +85,17 @@
     htop
     btop
     nix-tree
-    pavucontrol
-    pamixer
-    playerctl
+    ripgrep
+    tree-sitter
+    gcc
+    docker
+    docker-compose
+    nodejs
+    telegram-desktop
+    amnezia-vpn
+    amneziawg-tools
+    amneziawg-go
     wezterm
-    nautilus         # Файловый менеджер (опционально)
   ];
 
   fonts.packages = with pkgs; [

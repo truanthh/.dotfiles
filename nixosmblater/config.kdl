@@ -46,7 +46,7 @@ input {
         // off
         // natural-scroll
         // accel-speed 0.2
-        // accel-profile "flat"
+        accel-profile "flat"
         // scroll-method "no-scroll"
     }
 
@@ -76,7 +76,7 @@ input {
 // https://niri-wm.github.io/niri/Configuration:-Outputs
 // Remember to uncomment the node by removing "/-"!
 /-output "eDP-1" {
-    // Uncomment this line to disable this output.
+    // Uncomment ths line to disable this output.
     // off
 
     // Resolution and, optionally, refresh rate of the output.
@@ -85,10 +85,10 @@ input {
     // for the resolution.
     // If the mode is omitted altogether or is invalid, niri will pick one automatically.
     // Run `niri msg outputs` while inside a niri instance to list all outputs and their modes.
-    mode "1920x1080@144.001"
+    mode "1920x1080"
 
     // You can use integer or fractional scale, for example use 1.5 for 150% scale.
-    scale 1.5
+    scale 1
 
     // Transform allows to rotate the output counter-clockwise, valid values are:
     // normal, 90, 180, 270, flipped, flipped-90, flipped-180 and flipped-270.
@@ -267,8 +267,14 @@ layout {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-// This line starts waybar, a commonly used bar for Wayland compositors.
-spawn-at-startup "waybar"
+spawn-sh-at-startup "niri msg output 'PNP(BNQ) ZOWIE XL LCD N1J03435SL0' apply mode 1920x1080@144.001"
+
+// Автозапуск приложений
+spawn-at-startup "wezterm"
+spawn-at-startup "firefox"
+spawn-at-startup "Telegram"
+spawn-at-startup "AmneziaVpn"
+// Объявляем именованные рабочие столы
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
 // spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
@@ -517,11 +523,11 @@ binds {
     //
     // For example, with 2 workspaces + 1 empty, indices 3, 4, 5 and so on
     // will all refer to the 3rd workspace.
-    // Mod+1 { focus-workspace 1; }
-    // Mod+2 { focus-workspace 2; }
-    // Mod+3 { focus-workspace 3; }
-    // Mod+4 { focus-workspace 4; }
-    // Mod+5 { focus-workspace 5; }
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
     Mod+6 { focus-workspace 6; }
     Mod+7 { focus-workspace 7; }
     Mod+8 { focus-workspace 8; }

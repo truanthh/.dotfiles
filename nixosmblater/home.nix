@@ -19,15 +19,6 @@
 
   # ===== ПАКЕТЫ ДЛЯ ПОЛЬЗОВАТЕЛЯ =====
   home.packages = with pkgs; [
-    ripgrep
-    tree-sitter
-    gcc
-    docker
-    docker-compose
-    nodejs
-    telegram-desktop
-    amnezia-vpn
-    amneziawg-tools
     
     # GNOME расширения
     gnome-shell-extensions
