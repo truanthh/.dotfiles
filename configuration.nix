@@ -38,10 +38,8 @@
 
   # services.getty.autologinUser = "truanthh";
 
-  programs.hyprland = {
+  programs.niri = {
     enable = true;
-    # Включаем плагины XWayland (для старых приложений)
-    xwayland.enable = true;
   };
 
   services.xserver.enable = false;
@@ -73,19 +71,9 @@
 
   # ========== СИСТЕМНЫЕ ПАКЕТЫ ==========
   environment.systemPackages = with pkgs; [
-    # Hyprland экосистема
-    hyprland
-    hyprpaper
-    hyprlock
-    hypridle
-    waybar
-    wofi
-    dunst
-    kitty
-    brightnessctl
-    libnotify
-    wl-clipboard
-    
+    alacritty
+    fuzzel
+
     # Утилиты
     alsa-utils
     vim

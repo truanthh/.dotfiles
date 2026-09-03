@@ -10,11 +10,11 @@
     shellAliases = {
       btw = "echo i use hyprland btw";
     };
-    profileExtra = ''
-      if [ -z "$WAYLAND_DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
-        exec hyprland
-      fi
-    '';
+    # profileExtra = ''
+    #   if [ -z "$WAYLAND_DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
+    #     exec hyprland
+    #   fi
+    # '';
   };
 
   # ===== ПАКЕТЫ ДЛЯ ПОЛЬЗОВАТЕЛЯ =====
@@ -33,18 +33,11 @@
     gnome-shell-extensions
   ];
 
-  # ===== КОНФИГИ =====
-  home.file.".config/hypr" = {
-    source = ./hypr;
-    force = true;
-  };
-
   home.file = {
     ".config/nvim".source = ./nvim/.config/nvim;
-    ".config/waybar".source = ./waybar;
-    ".config/foot".source = ./foot;
     ".wezterm.lua".source = ./wezterm/.wezterm.lua;
     ".local/share/fonts".source = ./fonts;
+    ".config/niri/config.kdl".source = ./config.kdl;
   };
 
   # ===== ПРОГРАММЫ С КОНФИГАМИ =====
