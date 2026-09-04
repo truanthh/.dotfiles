@@ -8,7 +8,7 @@
   programs.bash = {
     enable = true;
     shellAliases = {
-      btw = "echo i use hyprland btw";
+      btw = "echo i use nixos btw";
     };
     # profileExtra = ''
     #   if [ -z "$WAYLAND_DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
@@ -25,9 +25,9 @@
   ];
 
   home.file = {
-    ".config/nvim".source = ./nvim/.config/nvim;
-    ".wezterm.lua".source = ./wezterm/.wezterm.lua;
-    ".local/share/fonts".source = ./fonts;
+    ".config/nvim".source = ../nvim/.config/nvim;
+    ".wezterm.lua".source = ../wezterm/.wezterm.lua;
+    ".local/share/fonts".source = ../fonts;
     ".config/niri/config.kdl".source = ./config.kdl;
   };
 
