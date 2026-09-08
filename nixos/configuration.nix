@@ -10,9 +10,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # ========== АППАРАТНОЕ ОБЕСПЕЧЕНИЕ ==========
-  # Убираем hardware.maccel — он не работает
-  # hardware.maccel = { ... };
-
   hardware.nvidia = {
     modesetting.enable = true;
     powerManagement.enable = false;
@@ -26,31 +23,35 @@
 
   time.timeZone = "Europe/Moscow";
 
-  # ========== NIRI ==========
-  programs.niri.enable = true;
-  programs.amnezia-vpn.enable = true;
-
-  # ===== SDDM с автовходом в Niri =====
+  # ========== KDE PLASMA ВМЕСТО NIRI ==========
   
-  # Включаем SDDM с автовходом
+  # Включаем SDDM (он уже используется для KDE)
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
-    
   };
 
+  # Автовход в KDE
   services.displayManager = {
     autoLogin = {
       enable = true;
       user = "truanthh";
     };
+    defaultSession = "plasma";
   };
 
-  # Регистрируем Niri как сессию
-  services.displayManager.sessionPackages = [ pkgs.niri ];
-  services.displayManager.defaultSession = "niri";
+  # Включаем KDE Plasma
+  services.desktopManager.plasma6.enable = true;
+  
+  # Опционально: включаем набор приложений KDE
+  # services.xserver.desktopManager.plasma5.enable = true; # если нужен X11
 
+  # Включаем KDE Connect для синхронизации с телефоном
+  programs.kdeconnect.enable = true;
+
+  # ========== ОСТАЛЬНЫЕ ПРОГРАММЫ ==========
   programs.firefox.enable = true;
+  programs.amnezia-vpn.enable = true;
 
   # SOUND
   services.pipewire = {
@@ -71,9 +72,13 @@
 
   # ========== СИСТЕМНЫЕ ПАКЕТЫ ==========
   environment.systemPackages = with pkgs; [
+    # Терминалы (оставляем для выбора)
     alacritty
+    wezterm
+    konsole  # родной терминал KDE
+
+    # Лаунчер (можно оставить fuzzel или использовать krunner)
     fuzzel
-    waybar
 
     # Утилиты
     alsa-utils
@@ -95,7 +100,12 @@
     amnezia-vpn
     amneziawg-tools
     amneziawg-go
-    wezterm
+    
+    # KDE-специфичные пакеты (опционально)
+    kdePackages.kate        # редактор
+    kdePackages.gwenview    # просмотрщик изображений
+    kdePackages.okular      # просмотр PDF
+    kdePackages.dolphin     # файловый менеджер (уже есть в plasma6)
   ];
 
   fonts.packages = with pkgs; [

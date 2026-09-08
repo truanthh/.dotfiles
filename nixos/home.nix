@@ -10,17 +10,10 @@
     shellAliases = {
       btw = "echo i use nixos btw";
     };
-    # profileExtra = ''
-    #   if [ -z "$WAYLAND_DISPLAY" ] && [ "$XDG_VTNR" = 1 ]; then
-    #     exec hyprland
-    #   fi
-    # '';
   };
 
-  # ===== ПАКЕТЫ ДЛЯ ПОЛЬЗОВАТЕЛЯ =====
   home.packages = with pkgs; [
-    
-    # GNOME расширения
+    # GNOME расширения (если нужны - оставь, если нет - удали)
     gnome-shell-extensions
   ];
 
@@ -28,11 +21,11 @@
     ".config/nvim".source = ../nvim/.config/nvim;
     ".wezterm.lua".source = ../wezterm/.wezterm.lua;
     ".local/share/fonts".source = ../fonts;
-    ".config/niri/config.kdl".source = ./config.kdl;
+    # Убираем конфиг Niri (или закомментируй, если хочешь сохранить)
+    # ".config/niri/config.kdl".source = ./config.kdl;
   };
 
-  # ===== ПРОГРАММЫ С КОНФИГАМИ =====
-  programs.git.settings = {
+  programs.git = {
     enable = true;
     userName = "truanthh";
     userEmail = "aquapyr@gmail.com";

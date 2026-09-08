@@ -7,22 +7,21 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    maccel.url = "github:Gnarus-G/maccel";
+    # maccel больше не нужен
   };
 
-  outputs = { self, nixpkgs, home-manager, maccel, ... }@inputs: {
-    # Конфигурация системы (вся система)
+  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
     nixosConfigurations.nixos-btw = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
       modules = [
-        ./configuration.nix           # ваш основной конфиг системы
+        ./configuration.nix
         home-manager.nixosModules.home-manager {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
           home-manager.users.truanthh = import ./home.nix;
         }
-        maccel.nixosModules.default  # ← ПОДКЛЮЧАЕМ ЗДЕСЬ
+        # Убираем maccel.nixosModules.default
       ];
     };
   };
