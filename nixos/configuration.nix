@@ -1,118 +1,178 @@
 { config, lib, pkgs, ... }:
+
 {
-  nixpkgs.config.allowUnfree = true;
+  imports =
+    [ # Include the results of the hardware scan.
+      ./hardware-configuration.nix
+    ];
 
-  imports = [ 
-    ./hardware-configuration.nix
-  ];
-
+  # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  # ========== АППАРАТНОЕ ОБЕСПЕЧЕНИЕ ==========
-  hardware.nvidia = {
-    modesetting.enable = true;
-    powerManagement.enable = false;
-    open = false;
-    nvidiaSettings = true;
-    forceFullCompositionPipeline = false;
-  };
+  networking.hostName = "nixos-btw"; # Define your hostname.
 
-  networking.hostName = "nixos-btw";
+  # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
 
+  # Set your time zone.
   time.timeZone = "Europe/Moscow";
 
-  # ========== KDE PLASMA ВМЕСТО NIRI ==========
-  
-  # Включаем SDDM (он уже используется для KDE)
-  services.displayManager.sddm = {
-    enable = true;
-    wayland.enable = true;
-  };
+  # Enable the X11 windowing system.
+  services.xserver.enable = true;
+  services.displayManager.gdm.enable = true;
+  services.desktopManager.gnome.enable = true;
 
-  # Автовход в KDE
-  services.displayManager = {
-    autoLogin = {
-      enable = true;
-      user = "truanthh";
-    };
-    defaultSession = "plasma";
-  };
+  # Configure keymap in X11
+  services.xserver.xkb.layout = "us,ru";
+  services.xserver.xkb.options = "grp:alt_shift_toggle,eurosign:e,caps:escape";
 
-  # Включаем KDE Plasma
-  services.desktopManager.plasma6.enable = true;
-  
-  # Опционально: включаем набор приложений KDE
-  # services.xserver.desktopManager.plasma5.enable = true; # если нужен X11
+  virtualisation.docker.enable = true;
 
-  # Включаем KDE Connect для синхронизации с телефоном
-  programs.kdeconnect.enable = true;
+  hardware.nvidia = {
+  modesetting.enable = true;          # Обязательно для Wayland
+  powerManagement.enable = true;      # <-- Главный параметр для решения проблемы с черным экраном после сна
+  powerManagement.finegrained = false; # Обычно оставляют false
+  open = false;                       # Используйте проприетарный драйвер для стабильности
+  nvidiaSettings = true;
+  package = config.boot.kernelPackages.nvidiaPackages.stable; # Или production
+};
 
-  # ========== ОСТАЛЬНЫЕ ПРОГРАММЫ ==========
+  # Define a user account. Don't forget to set a password with ‘passwd’.
+   users.users.truanthh = {
+     isNormalUser = true;
+     extraGroups = [ "wheel", "docker" ]; # Enable ‘sudo’ for the user.
+     packages = with pkgs; [
+       tree
+     ];
+   };
+
   programs.firefox.enable = true;
   programs.amnezia-vpn.enable = true;
 
-  # SOUND
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-  };
+  # List packages installed in system profile.
+  # You can use https://search.nixos.org/ to find more packages (and options).
+   environment.systemPackages = with pkgs; [
+     stow
+     git
+     vim
+     neovim
+     wget
+     wezterm
+     curl
+     ripgrep
+     alsa-utils
+     htop
+     btop
+     tree-sitter
+     docker
+     docker-compose
+     gcc
+     nodejs
+     
+     # ??
+     devtoolbox
+     # adwaita-qt6
+     gnome-tweaks
+     nix-tree
+     fuzzel
 
-  hardware.alsa.enablePersistence = true;
+     # Утилиты
+     telegram-desktop
+     amnezia-vpn
+     amneziawg-tools
+     amneziawg-go
+  ]++(with pkgs.gnomeExtensions; [
+       gnomeExtensions.hide-top-bar
+       gnomeExtensions.happy-appy-hotkey
+    ]);
 
-  # ========== ПОЛЬЗОВАТЕЛИ ==========
-  users.users.truanthh = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "video" "audio" ];
-    packages = with pkgs; [ tree ];
-  };
+  # ---------------- EXPERIMENTAL STUFF HERE  -------------------------------------------------------------------------
+        programs.dconf.enable = true;
 
-  # ========== СИСТЕМНЫЕ ПАКЕТЫ ==========
-  environment.systemPackages = with pkgs; [
-    # Терминалы (оставляем для выбора)
-    alacritty
-    wezterm
-    konsole  # родной терминал KDE
+	programs.dconf.profiles.user.databases = [
+	  {
+	    lockAll = true; # предотвращает переопределение
+	    settings = {
+	     "org/gnome/desktop/input-sources" = {
+		sources = [
+		  (lib.gvariant.mkTuple [ "xkb" "us" ])
+		  (lib.gvariant.mkTuple [ "xkb" "ru" ])
+		];
+		xkb-options = [ "grp:alt_shift_toggle" ];
+	      };
+            "org/gnome/desktop/interface".cursor-theme = "Adwaita";
+		#    "org/gnome/shell" = {
+		#      disable-user-extensions = false;
+		#      enabled-extensions = [
+		# "gnome-happy-appy-hotkey@jqno.github.com"  # UUID расширения
+		# "hidetopbar@tuxor1337.gitlab.gnome.org"  # UUID расширения
+		#      ];
+		#    };
 
-    # Лаунчер (можно оставить fuzzel или использовать krunner)
-    fuzzel
+	    "org/gnome/shell/extensions/hide-top-bar" = {
+              enabled = true;
+	    };
+	    "org/gnome/shell/extensions/happy-appy-hotkey" = {
+	      enabled = true;
+	      # Hotkey 1: Console (gnome-terminal)
+	      app-hotkey-1 = "<Alt>1";
+	      app-exec-1 = "gnome-terminal";
 
-    # Утилиты
-    alsa-utils
-    vim
-    neovim
-    wget
-    curl
-    git
-    htop
-    btop
-    nix-tree
-    ripgrep
-    tree-sitter
-    gcc
-    docker
-    docker-compose
-    nodejs
-    telegram-desktop
-    amnezia-vpn
-    amneziawg-tools
-    amneziawg-go
-    
-    # KDE-специфичные пакеты (опционально)
-    kdePackages.kate        # редактор
-    kdePackages.gwenview    # просмотрщик изображений
-    kdePackages.okular      # просмотр PDF
-    kdePackages.dolphin     # файловый менеджер (уже есть в plasma6)
-  ];
+	      # Hotkey 2: Firefox
+	      app-hotkey-2 = "<Alt>2";
+	      app-exec-2 = "firefox";
 
-  fonts.packages = with pkgs; [
-    nerd-fonts.jetbrains-mono
-  ];
+	      # Hotkey 3: WezTerm
+	      app-hotkey-3 = "<Alt>3";
+	      app-exec-3 = "wezterm";
+	    };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+	    };
+	  }
+	];
 
-  system.stateVersion = "26.05";
+  # Some programs need SUID wrappers, can be configured further or are
+  # started in user sessions.
+  # programs.mtr.enable = true;
+  # programs.gnupg.agent = {
+  #   enable = true;
+  #   enableSSHSupport = true;
+  # };
+
+  # List services that you want to enable:
+
+  # Enable the OpenSSH daemon.
+  # services.openssh.enable = true;
+
+  # Open ports in the firewall.
+  # networking.firewall.allowedTCPPorts = [ ... ];
+  # networking.firewall.allowedUDPPorts = [ ... ];
+  # Or disable the firewall altogether.
+  # networking.firewall.enable = false;
+
+  # Copy the NixOS configuration file and link it from the resulting system
+  # (/run/current-system/configuration.nix). This is useful in case you
+  # accidentally delete configuration.nix.
+  # system.copySystemConfiguration = true;
+
+  # This option defines the first version of NixOS you have installed on this particular machine,
+  # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
+  #
+  # Most users should NEVER change this value after the initial install, for any reason,
+  # even if you've upgraded your system to a new NixOS release.
+  #
+  # This value does NOT affect the Nixpkgs version your packages and OS are pulled from,
+  # so changing it will NOT upgrade your system - see https://nixos.org/manual/nixos/stable/#sec-upgrading for how
+  # to actually do that.
+  #
+  # This value being lower than the current NixOS release does NOT mean your system is
+  # out of date, out of support, or vulnerable.
+  #
+  # Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
+  # and migrated your data accordingly.
+  #
+  # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
+  system.stateVersion = "26.05"; # Did you read the comment?
 }
+

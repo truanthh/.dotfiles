@@ -7,12 +7,15 @@ local act = wezterm.action
 -- This is where you actually apply your config choices
 -- -KSDJFLSKDJF
 
+config.window_decorations = "TITLE | RESIZE | INTEGRATED_BUTTONS"
+
 config.font = wezterm.font("Monaspace Neon NF")
 -- config.window_decorations = "NONE"
 
 -- For example, changing the color scheme:
 -- config.color_scheme = 'Bamboo'
 
+-- config.enable_tab_bar = true
 config.enable_tab_bar = false
 -- config.hide_tab_bar_if_only_one_tab = true
 
